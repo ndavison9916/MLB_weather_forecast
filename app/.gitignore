@@ -1,1 +1,77 @@
-/build
+# Gradle files
+.gradle/
+build/
+**/build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log files
+*.log
+
+# Android Studio specific files
+/.idea/
+/.idea/**/workspace.xml
+/.idea/**/tasks.xml
+/.idea/**/usage.statistics.xml
+/.idea/**/dictionaries
+/.idea/**/ssl/keystore.jks
+
+# User-specific files
+.DS_Store
+*.iml
+*.hprof
+
+# IntelliJ
+out/
+
+# Keystore files (ensure you don't commit sensitive information)
+*.jks
+*.keystore
+
+# Android configuration files
+.cxx/
+.externalNativeBuild/
+.idea/caches/
+.idea/libraries/
+/.idea/modules.xml
+.idea/.name
+
+# Miscellaneous
+*.apk
+*.ap_
+*.db
+*.cxx
+*.so
+
+# ProGuard
+proguard/
+proguard/*.txt
+
+# NDK
+obj/
+
+# Maven
+.localrepo/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.lock
+*.orig
+*.old
+*~
+
+# JetBrains specific
+.idea/codeStyles/
+.idea/assetWizardSettings.xml
+.idea/externalDependencies.xml
+
+# Lint
+lint/intermediates/
+lint/generated/
+
+# Unit test & coverage
+*.ec
