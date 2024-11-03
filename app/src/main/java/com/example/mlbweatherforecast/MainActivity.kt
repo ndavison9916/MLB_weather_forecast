@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
 
     private val forecastViewModel: ForecastViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
