@@ -25,10 +25,10 @@ fun ForecastItem(forecast: ForecastData, onClick: () -> Unit)
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(stringResource(R.string.date) + "${forecast.date}")
-            Text(stringResource(R.string.temperature) + "${forecast.temperature}" + stringResource(R.string.degrees_F))
-            Text(stringResource(R.string.description) + "${forecast.description}")
-            Text(stringResource(R.string.wind) + "${forecast.wind}")
+            Text(forecast.date)
+            Text(stringResource(R.string.temperature) + "${forecast.maxTemp}" + stringResource(R.string.degrees_F))
+            Text(stringResource(R.string.wind) + "${forecast.windSpeed} mph " + forecast.windDirection)
+            Text(stringResource(R.string.description) + forecast.description)
         }
     }
 }

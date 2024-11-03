@@ -9,7 +9,7 @@ class ForecastViewModelFactory(
 ): ViewModelProvider.Factory {
     override fun <T: ViewModel> create(modelClass: Class<T>): T{
         if (modelClass.isAssignableFrom(ForecastViewModel::class.java)){
-            return ForecastViewModel() as T
+            return ForecastViewModel(forecastUtility) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

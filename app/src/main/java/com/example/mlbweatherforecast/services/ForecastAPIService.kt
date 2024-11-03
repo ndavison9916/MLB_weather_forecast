@@ -1,18 +1,27 @@
 package com.example.mlbweatherforecast.services
 
 import com.example.mlbweatherforecast.responses.OneCallResponse
-import com.example.mlbweatherforecast.responses.GeoZipResponse
 import com.example.mlbweatherforecast.constants.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 object ForecastAPIService {
+    val client = OkHttpClient.Builder()
+        .addInterceptor(ApiLoggingInterceptor())
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build()
+
     fun create(): WeatherOneCallAPI {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_ONE_CALL)
-            .addConverterFactory(GsonConverterFactory.create()) // Converts JSON responses to Kotlin objects
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WeatherOneCallAPI::class.java)
     }
@@ -23,7 +32,7 @@ interface WeatherOneCallAPI {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("appid") apiKey: String,
-        @Query("units") units: String = "standard",
+        @Query("units") units: String = "imperial",
         @Query("exclude") exclude: String = "minutely"
     ): OneCallResponse
 }

@@ -3,11 +3,11 @@ package com.example.mlbweatherforecast.data
 class SampleDataProvider {
 
     companion object{
-        private val forecast1 = ForecastData("11/1/2024", 70.0, "mostly sunny", "5mph NW")
-        private val forecast2 = ForecastData("11/2/2024", 72.0, "cloudy", "5mph SW")
-        private val forecast3 = ForecastData("11/3/2024", 80.0, "partly cloudy", "10mph E")
-        private val forecast4 = ForecastData("11/4/2024", 75.0, "sunny", "5mph N")
-        private val forecast5 = ForecastData("11/5/2024", 60.0, "mostly sunny", "10mph NW")
+        private val forecast1 = ForecastData("11/1/2024", 60.0, 80.0, "mostly sunny", 5.0, "N")
+        private val forecast2 = ForecastData("11/2/2024", 59.0, 79.0, "cloudy", 10.0, "NNE")
+        private val forecast3 = ForecastData("11/3/2024", 62.0, 85.0,"partly cloudy", 10.0, "SW")
+        private val forecast4 = ForecastData("11/4/2024", 55.0, 78.0,"sunny", 15.0, "SW")
+        private val forecast5 = ForecastData("11/5/2024", 60.0, 72.0, "mostly sunny", 7.0, "NW")
     }
 
 

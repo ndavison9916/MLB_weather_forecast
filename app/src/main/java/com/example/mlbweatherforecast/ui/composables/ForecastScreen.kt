@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mlbweatherforecast.R
-import com.example.mlbweatherforecast.data.SampleDataProvider
 import com.example.mlbweatherforecast.viewmodels.ForecastViewModel
 
 
@@ -32,6 +31,8 @@ fun ForecastScreen(viewModel: ForecastViewModel)
     val forecastList by viewModel.forecastList.collectAsState(initial = emptyList())
 
     val isOnline by viewModel.isOnline.collectAsState(initial = true)
+
+    val location by viewModel.location.collectAsState(initial = "")
 
     Column(modifier = Modifier.padding(16.dp)) {
         TextField(
@@ -59,16 +60,21 @@ fun ForecastScreen(viewModel: ForecastViewModel)
             )
         )
 
-        LazyColumn {
-            var sampleData = SampleDataProvider()
-            var sampleForecastList = sampleData.getSampleForecast()
+        Text(
+            if (location == "") ""
+            else stringResource(R.string.location) + location
+        )
 
-            items(sampleForecastList) { forecast ->
-                ForecastItem(forecast = forecast, onClick = {viewModel.onDaySelected(forecast)})
-            }
-//            items(forecastList) { forecast ->
+        LazyColumn {
+//            var sampleData = SampleDataProvider()
+//            var sampleForecastList = sampleData.getSampleForecast()
+//
+//            items(sampleForecastList) { forecast ->
 //                ForecastItem(forecast = forecast, onClick = {viewModel.onDaySelected(forecast)})
 //            }
+            items(forecastList) { forecast ->
+                ForecastItem(forecast = forecast, onClick = {viewModel.onDaySelected(forecast)})
+            }
         }
     }
 }

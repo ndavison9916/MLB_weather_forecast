@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mlbweatherforecast.BuildConfig
+import com.example.mlbweatherforecast.constants.ISO_COUNTRY_CODE_US
 import com.example.mlbweatherforecast.constants.TAG
 import com.example.mlbweatherforecast.data.ForecastData
-import com.example.mlbweatherforecast.responses.DailyForecast
 import com.example.mlbweatherforecast.responses.GeoZipResponse
 import com.example.mlbweatherforecast.responses.OneCallResponse
-import com.example.mlbweatherforecast.services.GeoZipAPIService
+import com.example.mlbweatherforecast.utilities.DateFormatterUtility
+import com.example.mlbweatherforecast.utilities.DirectionUtility
 import com.example.mlbweatherforecast.utilities.ForecastUtility
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,19 +25,17 @@ class ForecastViewModel(private val forecastUtility: ForecastUtility) : ViewMode
     private val _forecastList = MutableStateFlow<List<ForecastData>>(emptyList())
     val forecastList: StateFlow<List<ForecastData>> get() = _forecastList
 
-    private val _cityName = MutableStateFlow("")
-    val cityName : StateFlow<String> get() = _cityName
-
-    init {
-
-    }
+    private val _location = MutableStateFlow("")
+    val location : StateFlow<String> get() = _location
 
 
     fun fetchWeather(zipCode: String) {
         viewModelScope.launch {
             try
             {
-                val geoZipResponse = forecastUtility.geoZipAPI.getLatLongByZip(zipCode, BuildConfig.OPENWEATHER_API_KEY)
+                var zipQuery = zipCode + "," + ISO_COUNTRY_CODE_US
+
+                val geoZipResponse = forecastUtility.geoZipAPI.getLatLongByZip(zipQuery, BuildConfig.OPENWEATHER_API_KEY)
 
                 var coordinatesPair : Pair<Double, Double> = processGeoZipResponse(geoZipResponse)
 
@@ -66,22 +65,29 @@ class ForecastViewModel(private val forecastUtility: ForecastUtility) : ViewMode
 
     fun processGeoZipResponse(response : GeoZipResponse): Pair<Double, Double>
     {
-        _cityName.value = response.name
+        Log.i(TAG, response.toString())
+        _location.value = response.name
         return Pair(response.lat, response.lon)
     }
 
     fun processOneCallResponse(response : OneCallResponse): List<ForecastData>
     {
+        Log.i(TAG, response.toString())
         var responseForecastData : MutableList<ForecastData> = mutableListOf()
+        val dateFormatUtil = DateFormatterUtility()
+        val directionUtil = DirectionUtility()
 
         response.daily.forEach{ dailyForecast ->
+            val dateString = dateFormatUtil.convertUnixToReadableDate(dailyForecast.dt)
+            val directionString = directionUtil.degreesToCompassDirection(dailyForecast.wind_deg)
+
             val dayForecastData = ForecastData(
-                dailyForecast.dt.toString(),
+                dateString,
                 dailyForecast.temp.min,
                 dailyForecast.temp.max,
                 dailyForecast.weather.first().description,
                 dailyForecast.wind_speed,
-                dailyForecast.wind_deg
+                directionString
             )
 
             responseForecastData.add(dayForecastData)
