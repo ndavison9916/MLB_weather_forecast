@@ -2,7 +2,9 @@ package com.example.mlbweatherforecast.data
 
 data class ForecastData(
     val date: String,
-    val temperature: Double,
+    val minTemp: Double,
+    val maxTemp: Double,
     val description: String,
-    val wind: String
+    val windSpeed: Double,
+    val windDirection: Double
 )
