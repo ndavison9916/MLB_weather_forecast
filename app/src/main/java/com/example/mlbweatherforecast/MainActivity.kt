@@ -4,44 +4,52 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.mlbweatherforecast.services.ForecastAPIService
+import com.example.mlbweatherforecast.services.GeoZipAPIService
+import com.example.mlbweatherforecast.ui.composables.DetailedDailyForecast
+import com.example.mlbweatherforecast.ui.composables.ForecastScreen
 import com.example.mlbweatherforecast.ui.theme.MLBWeatherForecastTheme
+import com.example.mlbweatherforecast.utilities.ForecastUtility
+import com.example.mlbweatherforecast.viewmodels.ForecastViewModel
+import com.example.mlbweatherforecast.viewmodels.ForecastViewModelFactory
 
 class MainActivity : ComponentActivity() {
+
+    //create view model with dependency injection / factory method
+    private val forecastViewModel: ForecastViewModel by viewModels()
+    {
+        ForecastViewModelFactory(ForecastUtility(
+            ForecastAPIService.create(),
+            GeoZipAPIService.create()
+        ), this.application)
+    }
+
+    /**
+     * sets up the main UI entry for the application
+     * defines navigation graph
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             MLBWeatherForecastTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                NavHost(navController = navController, startDestination = "main") {
+                    composable("main") {
+                        ForecastScreen(navController, forecastViewModel)
+                    }
+
+                    composable("detail/{index}") { backStackEntry ->
+                        val index = backStackEntry.arguments?.getString("index")?.toInt() ?: -1
+                        DetailedDailyForecast(navController, forecastViewModel, index)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MLBWeatherForecastTheme {
-        Greeting("Android")
     }
 }
