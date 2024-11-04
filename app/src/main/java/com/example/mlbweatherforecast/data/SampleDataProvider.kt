@@ -1,5 +1,8 @@
 package com.example.mlbweatherforecast.data
 
+/**
+ * provides sample ForecastEntities for unit and UI testing
+ */
 class SampleDataProvider {
 
     companion object{

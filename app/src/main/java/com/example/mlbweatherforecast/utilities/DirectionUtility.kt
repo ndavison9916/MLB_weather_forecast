@@ -1,5 +1,8 @@
 package com.example.mlbweatherforecast.utilities
 
+/**
+ * Utility class to convert the wind direction degree to a readable compass direction
+ */
 class DirectionUtility {
     private val directions = arrayOf(
         "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",

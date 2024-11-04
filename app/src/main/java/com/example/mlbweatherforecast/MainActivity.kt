@@ -19,6 +19,7 @@ import com.example.mlbweatherforecast.viewmodels.ForecastViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
+    //create view model with dependency injection / factory method
     private val forecastViewModel: ForecastViewModel by viewModels()
     {
         ForecastViewModelFactory(ForecastUtility(
@@ -27,6 +28,10 @@ class MainActivity : ComponentActivity() {
         ), this.application)
     }
 
+    /**
+     * sets up the main UI entry for the application
+     * defines navigation graph
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -7,6 +7,9 @@ import com.example.mlbweatherforecast.responses.GeoZipResponse
 import com.example.mlbweatherforecast.services.WeatherGeoAPI
 import com.example.mlbweatherforecast.services.WeatherOneCallAPI
 
+/**
+ * Utility Class to easily access the APIs required to fetch weather data
+ */
 class ForecastUtility(val oneCallAPI : WeatherOneCallAPI, val geoZipAPI : WeatherGeoAPI) {
     suspend fun getCoordinatesByZip(zipCode: String): GeoZipResponse? {
         return try {

@@ -9,6 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * Class which constructs the API service for retrieving the openweather one call forecast info
+ */
 object ForecastAPIService {
     val client = OkHttpClient.Builder()
         .addInterceptor(ApiLoggingInterceptor())

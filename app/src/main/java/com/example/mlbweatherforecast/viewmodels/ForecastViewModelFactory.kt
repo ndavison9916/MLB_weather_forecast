@@ -5,6 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mlbweatherforecast.utilities.ForecastUtility
 
+/**
+ * Factory class for the ForecastViewModel class
+ * Takes the forecastUtility which has references to the required APIs,
+ * and a reference to the Application
+ */
 class ForecastViewModelFactory(
     private val forecastUtility: ForecastUtility,
     private val app: Application

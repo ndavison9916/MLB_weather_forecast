@@ -13,6 +13,9 @@ abstract class AppDatabase : RoomDatabase(){
     companion object{
         private var INSTANCE: AppDatabase? = null
 
+        /**
+         * Returns a Singleton Instance of the AppDatabase named forecasts.db on the device
+         */
         fun getInstance(context: Context): AppDatabase? {
             if (INSTANCE == null) {
                 synchronized(AppDatabase::class) {

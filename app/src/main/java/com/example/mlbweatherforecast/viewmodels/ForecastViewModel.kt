@@ -24,23 +24,38 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ *  ForecastViewModel:
+ *  Class which holds the instances of the API workers and manages the logic to fetch the weather data,
+ *  cache the data, and handle the Kotlin state flows which will update the UI when altered
+ */
 class ForecastViewModel(app: Application, private val forecastUtility: ForecastUtility) : AndroidViewModel(app) {
 
+    //State Flow which indicates if the device can reach the internet and api endpoint
     private val _isOnline = MutableStateFlow(true)
     val isOnline: StateFlow<Boolean> get() = _isOnline
 
+    //State Flow which holds the most recently fetched forecast, whether from the api or storage
     private val _forecastList = MutableStateFlow<List<ForecastEntity>>(emptyList())
     val forecastList: StateFlow<List<ForecastEntity>> get() = _forecastList
 
+    //name of the zip for the forecast list
     private val _location = MutableStateFlow("")
 
+    //database which holds the cached data
     private val database = AppDatabase.getInstance(app)
 
+    //get the initial network status to determine what should be displayed
     init {
         _isOnline.value = checkNetworkStatus(app.applicationContext)
         fetchWeatherFromDatabase()
     }
 
+    /**
+     * fetches the weather forecast from the api if there is a network connection; otherwise,
+     * fetch the most recently cached weather forecast
+     * sets the resulting forecast list to the state flow object forecastList
+     */
     suspend fun fetchWeather(zipCode: String) {
         val internetCheckJob = viewModelScope.launch {
             try {
@@ -49,10 +64,12 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
             catch (e: Exception)
             {
                 Log.e(TAG, e.toString())
+                //if the network cannot be determined, use offline mode
                 _isOnline.value = false
             }
         }
 
+        //wait for network status
         internetCheckJob.join()
 
         if (_isOnline.value == true)
@@ -73,6 +90,7 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
 
                     _forecastList.value = processOneCallResponse(oneCallResponse)
 
+                    //remove the existing forecast list from the cache
                     deleteForecasts()
 
                 }
@@ -83,8 +101,10 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
                 }
             }
 
+            //wait for the data to be processed from the api
             weatherFetchJob.join()
 
+            //add the forecasts to the cache
             addForecasts(_forecastList.value)
         }
         else
@@ -93,6 +113,9 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
         }
     }
 
+    /**
+     * returns true if there is network connectivity; otherwise false
+     */
     fun checkNetworkStatus(context: Context) : Boolean
     {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -108,6 +131,9 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
         }
     }
 
+    /**
+     * deletes the existing forecast in the cached database
+     */
     fun deleteForecasts()
     {
         viewModelScope.launch {
@@ -118,6 +144,9 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
         }
     }
 
+    /**
+     * adds the forecast list to the cached database
+     */
     fun addForecasts(forecasts : List<ForecastEntity>){
         viewModelScope.launch {
             withContext(Dispatchers.IO)
@@ -127,7 +156,9 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
         }
     }
 
-
+    /**
+     * retrieves the cached forecasts from the database
+     */
     fun fetchWeatherFromDatabase()
     {
         viewModelScope.launch {
@@ -139,6 +170,9 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
     }
 
 
+    /**
+     * processes the openweather geo api to return the lat/long and name from a givenn zipcode
+     */
     fun processGeoZipResponse(response : GeoZipResponse): Pair<Double, Double>
     {
         Log.i(TAG, response.toString())
@@ -146,6 +180,10 @@ class ForecastViewModel(app: Application, private val forecastUtility: ForecastU
         return Pair(response.lat, response.lon)
     }
 
+    /**
+     * processes the openweather onecall api which pulls the 7 day forecast
+     * returns a list of the ForecastEntity
+     */
     fun processOneCallResponse(response : OneCallResponse): List<ForecastEntity>
     {
         Log.i(TAG, response.toString())
