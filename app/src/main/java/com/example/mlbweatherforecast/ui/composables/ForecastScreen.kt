@@ -4,13 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,8 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mlbweatherforecast.R
-import com.example.mlbweatherforecast.data.ForecastEntity
-import com.example.mlbweatherforecast.data.SampleDataProvider
 import com.example.mlbweatherforecast.viewmodels.ForecastViewModel
 import kotlinx.coroutines.launch
 
@@ -38,7 +34,7 @@ fun ForecastScreen(navHostController: NavHostController, viewModel: ForecastView
     val forecastList by viewModel.forecastList.collectAsState(initial = emptyList())
 
     val isOnline by viewModel.isOnline.collectAsState(initial = true)
-    
+
     val coroutineScope = rememberCoroutineScope()
 
 

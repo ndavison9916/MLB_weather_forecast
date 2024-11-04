@@ -7,9 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.example.mlbweatherforecast.BuildConfig
 import com.example.mlbweatherforecast.constants.ISO_COUNTRY_CODE_US
 import com.example.mlbweatherforecast.constants.TAG
