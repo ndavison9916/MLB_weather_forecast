@@ -10,11 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mlbweatherforecast.R
-import com.example.mlbweatherforecast.data.ForecastData
+import com.example.mlbweatherforecast.data.ForecastEntity
 
 
 @Composable
-fun ForecastItem(forecast: ForecastData, onClick: () -> Unit)
+fun ForecastItem(forecast: ForecastEntity, onClick: () -> Unit)
 {
     Card(
         modifier = Modifier
@@ -26,7 +26,7 @@ fun ForecastItem(forecast: ForecastData, onClick: () -> Unit)
             modifier = Modifier.padding(16.dp)
         ) {
             Text(forecast.date)
-            Text(stringResource(R.string.temperature) + "${forecast.maxTemp}" + stringResource(R.string.degrees_F))
+            Text(stringResource(R.string.temperature) + "${forecast.minTemp} - " + "${forecast.maxTemp}" + stringResource(R.string.degrees_F))
             Text(stringResource(R.string.wind) + "${forecast.windSpeed} mph " + forecast.windDirection)
             Text(stringResource(R.string.description) + forecast.description)
         }

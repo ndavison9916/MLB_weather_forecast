@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.mlbweatherforecast.services.ForecastAPIService
 import com.example.mlbweatherforecast.services.GeoZipAPIService
-import com.example.mlbweatherforecast.services.WeatherOneCallAPI
+import com.example.mlbweatherforecast.ui.composables.DetailedDailyForecast
 import com.example.mlbweatherforecast.ui.composables.ForecastScreen
 import com.example.mlbweatherforecast.ui.theme.MLBWeatherForecastTheme
 import com.example.mlbweatherforecast.utilities.ForecastUtility
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
         ForecastViewModelFactory(ForecastUtility(
             ForecastAPIService.create(),
             GeoZipAPIService.create()
-        ))
+        ), this.application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +32,17 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             MLBWeatherForecastTheme {
-                Surface(){
-                    ForecastScreen(forecastViewModel)
+                NavHost(navController = navController, startDestination = "main") {
+                    composable("main") {
+                        ForecastScreen(navController, forecastViewModel)
+                    }
+
+                    composable("detail/{index}") { backStackEntry ->
+                        val index = backStackEntry.arguments?.getString("index")?.toInt() ?: -1
+                        DetailedDailyForecast(navController, forecastViewModel, index)
+                    }
                 }
             }
         }

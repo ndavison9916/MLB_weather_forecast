@@ -3,7 +3,6 @@ package com.example.mlbweatherforecast.utilities
 import android.util.Log
 import com.example.mlbweatherforecast.BuildConfig
 import com.example.mlbweatherforecast.constants.TAG
-import com.example.mlbweatherforecast.data.ForecastData
 import com.example.mlbweatherforecast.responses.GeoZipResponse
 import com.example.mlbweatherforecast.services.WeatherGeoAPI
 import com.example.mlbweatherforecast.services.WeatherOneCallAPI

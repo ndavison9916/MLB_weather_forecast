@@ -18,7 +18,9 @@ data class DailyForecast(
     val weather: List<WeatherDescription>,
     val humidity: Int,
     val wind_speed: Double,
-    val wind_deg: Double
+    val wind_deg: Double,
+    val summary: String,
+    val pop: Double
 )
 
 data class Temperature(
