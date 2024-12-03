@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.mlbweatherforecast.R
 import com.example.mlbweatherforecast.WeatherApp
 import com.example.mlbweatherforecast.dao.ForecastEntity
-import com.example.mlbweatherforecast.utilities.IconUtility
+import com.example.mlbweatherforecast.presentation.utilities.IconUtility
 
 
 @Composable

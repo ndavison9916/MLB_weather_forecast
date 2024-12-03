@@ -25,7 +25,7 @@ import com.example.mlbweatherforecast.R
 import com.example.mlbweatherforecast.WeatherApp
 import com.example.mlbweatherforecast.data.models.CurrentForecast
 import com.example.mlbweatherforecast.domain.utilities.DirectionUtility
-import com.example.mlbweatherforecast.utilities.IconUtility
+import com.example.mlbweatherforecast.presentation.utilities.IconUtility
 
 
 @Composable

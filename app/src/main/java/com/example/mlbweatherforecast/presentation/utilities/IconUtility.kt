@@ -1,4 +1,4 @@
-package com.example.mlbweatherforecast.utilities
+package com.example.mlbweatherforecast.presentation.utilities
 
 import android.content.Context
 import com.example.mlbweatherforecast.R

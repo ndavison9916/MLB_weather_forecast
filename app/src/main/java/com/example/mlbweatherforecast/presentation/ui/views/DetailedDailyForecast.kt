@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.example.mlbweatherforecast.R
 import com.example.mlbweatherforecast.WeatherApp
 import com.example.mlbweatherforecast.presentation.viewmodels.ForecastViewModel
-import com.example.mlbweatherforecast.utilities.IconUtility
+import com.example.mlbweatherforecast.presentation.utilities.IconUtility
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
