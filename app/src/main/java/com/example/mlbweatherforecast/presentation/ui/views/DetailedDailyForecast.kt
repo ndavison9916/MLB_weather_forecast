@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mlbweatherforecast.R
 import com.example.mlbweatherforecast.WeatherApp
@@ -36,7 +35,7 @@ import com.example.mlbweatherforecast.presentation.utilities.IconUtility
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailedDailyForecast(navController: NavController, index: Int, viewModel: ForecastViewModel = hiltViewModel()) {
+fun DetailedDailyForecast(navController: NavController, viewModel: ForecastViewModel, index: Int) {
 
     val forecastList = viewModel.state.value.forecasts
 
