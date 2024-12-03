@@ -38,9 +38,10 @@ import com.example.mlbweatherforecast.utilities.IconUtility
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailedDailyForecast(navController: NavController, viewModel: ForecastViewModel, index: Int) {
-    val forecasts by viewModel.forecastList.collectAsState(initial = emptyList())
 
-    val forecast = forecasts.getOrNull(index)
+    val forecastList = viewModel.state.value.forecasts
+
+    val forecast = forecastList.getOrNull(index)
 
     val context = WeatherApp.instance.applicationContext
 

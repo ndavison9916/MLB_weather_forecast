@@ -1,5 +1,6 @@
 package com.example.mlbweatherforecast.presentation.viewmodels
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,6 +16,7 @@ import com.example.mlbweatherforecast.domain.utilities.Resource
 import com.example.mlbweatherforecast.presentation.states.ForecastState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,13 +30,9 @@ class ForecastViewModel @Inject constructor (
     private val cachedForecastRepository: CachedForecastRepository,
     private val networkChecker: NetworkChecker,
 ): ViewModel(){
-    var state by mutableStateOf(ForecastState())
 
-    private val _networkStatus = MutableStateFlow<Boolean>(false)
-    val networkStatus: StateFlow<Boolean> = _networkStatus.asStateFlow()
-
-    private val _forecastList = MutableStateFlow<List<ForecastEntity>>(emptyList())
-    val forecastList: StateFlow<List<ForecastEntity>> get() = _forecastList
+    private val _state = mutableStateOf(ForecastState())
+    val state: State<ForecastState> = _state
 
     init
     {
@@ -53,7 +51,10 @@ class ForecastViewModel @Inject constructor (
         viewModelScope.launch {
             withContext(Dispatchers.IO)
             {
-                _networkStatus.value = networkChecker.isConnected()
+                val isOnline = networkChecker.isConnected()
+                _state.value = state.value.copy(
+                    isOnline = isOnline
+                )
             }
         }
     }
@@ -61,14 +62,14 @@ class ForecastViewModel @Inject constructor (
     fun loadForecastInfo(zip: String)
     {
         viewModelScope.launch {
-            state = state.copy(
+            _state.value = state.value.copy(
                 isLoading = true,
                 error = null
             )
 
             checkNetworkStatus()
 
-            if (_networkStatus.value) {
+            if (_state.value.isOnline) {
 
                 when (val zipResult = repository.getLatLongByZip(zip)) {
                     //fetch location success, now fetch forecast
@@ -110,7 +111,10 @@ class ForecastViewModel @Inject constructor (
                     {
                         val forecasts = cachedForecastRepository.fetchWeatherFromDatabase()
                         if (forecasts != null) {
-                            _forecastList.value = forecasts
+                            _state.value = state.value.copy(
+                                forecasts = forecasts,
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -119,7 +123,7 @@ class ForecastViewModel @Inject constructor (
     }
 
     fun handleError(message : String){
-        state = state.copy(
+        _state.value = state.value.copy(
             isLoading = false,
             error = message
         )
@@ -129,7 +133,7 @@ class ForecastViewModel @Inject constructor (
     {
         val forecasts = oneCallData.toDailyForecastList(location)
 
-        _forecastList.value = forecasts
+        //_forecastList.value = forecasts
 
         val currentForecast = oneCallData.current
 
@@ -137,8 +141,8 @@ class ForecastViewModel @Inject constructor (
 
         addForecasts(forecasts)
 
-
-        state = state.copy(
+        _state.value = state.value.copy(
+            forecasts = forecasts,
             currentForecast = currentForecast,
             isLoading = false,
             error = null
@@ -180,7 +184,10 @@ class ForecastViewModel @Inject constructor (
             {
                 val forecasts = cachedForecastRepository.fetchWeatherFromDatabase()
                 if (forecasts != null) {
-                    _forecastList.value = forecasts
+                    _state.value = state.value.copy(
+                        forecasts = forecasts,
+                        isLoading = false
+                    )
                 }
             }
         }

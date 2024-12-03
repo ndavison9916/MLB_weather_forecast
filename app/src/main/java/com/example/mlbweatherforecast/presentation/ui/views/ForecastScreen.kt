@@ -39,11 +39,11 @@ fun ForecastScreen(navHostController: NavHostController, viewModel: ForecastView
 {
     var zipCode by remember { mutableStateOf("") }
 
-    val currentForecast = viewModel.state.currentForecast
+    val currentForecast = viewModel.state.value.currentForecast
 
-    val forecastList by viewModel.forecastList.collectAsState(initial = emptyList())
+    val forecastList = viewModel.state.value.forecasts
 
-    val isOnline by viewModel.networkStatus.collectAsState(initial = false)
+    val isOnline = viewModel.state.value.isOnline
 
     val coroutineScope = rememberCoroutineScope()
 
