@@ -8,8 +8,8 @@
     <string name="degrees_F">°F</string>
     <string name="date">"Date: "</string>
     <string name="temperature">"Temperature: "</string>
-    <string name="low">"Low: "</string>
-    <string name="high">"High: "</string>
+    <string name="low">"L: "</string>
+    <string name="high">"H: "</string>
     <string name="description">"Description: "</string>
     <string name="wind">"Wind: "</string>
     <string name="chance_precipitation">"Chance of precipitation: "</string>
