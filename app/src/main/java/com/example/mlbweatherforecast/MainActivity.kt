@@ -5,10 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mlbweatherforecast.data.remote.GeoZipAPI
 import com.example.mlbweatherforecast.presentation.ui.views.DetailedDailyForecast
 import com.example.mlbweatherforecast.presentation.ui.views.ForecastScreen
 import com.example.mlbweatherforecast.presentation.ui.theme.MLBWeatherForecastTheme
@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
