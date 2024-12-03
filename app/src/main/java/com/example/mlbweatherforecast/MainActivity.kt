@@ -39,39 +39,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-
-    //create view model with dependency injection / factory method
-//    private val forecastViewModelOld: ForecastViewModelOld by viewModels()
-//    {
-//        ForecastViewModelFactory(ForecastUtility(
-//            ForecastAPI.create(),
-//            GeoZipAPI.create()
-//        ), this.application)
-//    }
-//
-//    /**
-//     * sets up the main UI entry for the application
-//     * defines navigation graph
-//     */
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        enableEdgeToEdge()
-//        setContent {
-//            val navController = rememberNavController()
-//            MLBWeatherForecastTheme {
-//                NavHost(navController = navController, startDestination = "main") {
-//                    composable("main") {
-//                        ForecastScreen(navController, forecastViewModelOld)
-//                    }
-//
-//                    composable("detail/{index}") { backStackEntry ->
-//                        val index = backStackEntry.arguments?.getString("index")?.toInt() ?: -1
-//                        DetailedDailyForecast(navController, forecastViewModelOld, index)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
