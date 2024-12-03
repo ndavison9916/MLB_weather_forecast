@@ -1,9 +1,7 @@
 package com.example.mlbweatherforecast.presentation.viewmodels
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mlbweatherforecast.dao.ForecastEntity
@@ -16,10 +14,6 @@ import com.example.mlbweatherforecast.domain.utilities.Resource
 import com.example.mlbweatherforecast.presentation.states.ForecastState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -39,8 +33,8 @@ class ForecastViewModel @Inject constructor (
         viewModelScope.launch {
             withContext(Dispatchers.IO)
             {
-                checkNetworkStatus()
                 fetchWeatherFromDatabase()
+                checkNetworkStatus()
             }
         }
 
@@ -133,8 +127,6 @@ class ForecastViewModel @Inject constructor (
     {
         val forecasts = oneCallData.toDailyForecastList(location)
 
-        //_forecastList.value = forecasts
-
         val currentForecast = oneCallData.current
 
         deleteForecasts()
@@ -192,5 +184,4 @@ class ForecastViewModel @Inject constructor (
             }
         }
     }
-
 }
