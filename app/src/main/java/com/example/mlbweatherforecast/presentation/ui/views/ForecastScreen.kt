@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mlbweatherforecast.R
 import com.example.mlbweatherforecast.presentation.viewmodels.ForecastViewModel
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun ForecastScreen(navHostController: NavHostController, viewModel: ForecastViewModel)
+fun ForecastScreen(navHostController: NavHostController, viewModel: ForecastViewModel = hiltViewModel())
 {
     var zipCode by remember { mutableStateOf("") }
 
