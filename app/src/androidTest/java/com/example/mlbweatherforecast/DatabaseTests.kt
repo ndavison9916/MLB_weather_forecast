@@ -3,9 +3,9 @@ package com.example.mlbweatherforecast
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.mlbweatherforecast.data.AppDatabase
-import com.example.mlbweatherforecast.data.ForecastDao
-import com.example.mlbweatherforecast.data.SampleDataProvider
+import com.example.mlbweatherforecast.dao.AppDatabase
+import com.example.mlbweatherforecast.dao.ForecastDao
+import com.example.mlbweatherforecast.dao.SampleDataProvider
 import junit.framework.TestCase.assertEquals
 import org.junit.After
 import org.junit.Before

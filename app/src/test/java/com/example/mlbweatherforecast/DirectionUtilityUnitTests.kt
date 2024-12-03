@@ -1,6 +1,6 @@
 package com.example.mlbweatherforecast
 
-import com.example.mlbweatherforecast.utilities.DirectionUtility
+import com.example.mlbweatherforecast.domain.utilities.DirectionUtility
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
